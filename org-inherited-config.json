@@ -20,12 +20,22 @@
                 "actions/checkout",
                 "actions/setup-node",
                 "actions/setup-go",
+                "actions/setup-python",
                 "trufflesecurity/trufflehog",
                 "actions/dependency-review-action",
                 "advanced-security/set-codeql-language-matrix",
                 "github/codeql-action/init",
                 "github/codeql-action/autobuild",
                 "github/codeql-action/analyze"
+            ]
+        },
+        {
+            "automerge": true,
+            "matchManagers": [
+                "dockerfile"
+            ],
+            "matchUpdateTypes": [
+                "digest"
             ]
         }
     ]
