@@ -32,6 +32,16 @@
         {
             "automerge": true,
             "matchManagers": [
+                "github-actions"
+            ],
+            "matchUpdateTypes": [
+                "pin",
+                "pinDigest"
+            ]
+        },
+        {
+            "automerge": true,
+            "matchManagers": [
                 "dockerfile"
             ],
             "matchUpdateTypes": [
