@@ -48,5 +48,17 @@
                 "digest"
             ]
         }
+    ],
+    "customManagers": [
+      {
+        "customType": "regex",
+        "fileMatch": [
+          "^image-versions\\.yaml$"
+        ],
+        "matchStrings": [
+          "image:\\s*(?<packageName>\\S+)\\s*tag:\\s*(?<currentValue>\\S+)\\s*digest:\\s*(?<currentDigest>sha256:[a-f0-9]+)"
+        ],
+        "datasourceTemplate": "docker"
+      }
     ]
 }
