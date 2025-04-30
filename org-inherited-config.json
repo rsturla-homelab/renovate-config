@@ -41,12 +41,12 @@
         },
         {
             "automerge": true,
-            "matchManagers": [
-                "dockerfile",
-                "regex"
-            ],
             "matchUpdateTypes": [
                 "digest"
+            ],
+            "matchPackageNames": [
+                "quay.io/centos-bootc/centos-bootc",
+                "ghcr.io/rsturla-homelab/bootc/*"
             ]
         }
     ],
@@ -54,7 +54,7 @@
         {
             "customType": "regex",
             "fileMatch": [
-                "^image-versions\\.yaml$"
+                "image-versions(\\.[^.]+)?\\.(yaml|yml)$"
             ],
             "matchStrings": [
                 "image:\\s*(?<packageName>\\S+)\\s*tag:\\s*(?<currentValue>\\S+)\\s*digest:\\s*(?<currentDigest>sha256:[a-f0-9]+)"
