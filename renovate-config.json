@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "username": "renovate-release",
+  "username": "rsturla-homelab/renovate[bot]",
   "onboarding": false,
   "platform": "github",
   "autodiscover": true,
