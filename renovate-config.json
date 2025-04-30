@@ -3,10 +3,13 @@
   "username": "rsturla-homelab/renovate[bot]",
   "onboarding": false,
   "platform": "github",
-  "autodiscover": true,
+  "autodiscover": false,
   "requireConfig": "optional",
   "inheritConfig": true,
   "inheritConfigRepoName": "{{parentOrg}}/renovate-config",
   "inheritConfigFileName": "org-inherited-config.json",
-  "inheritConfigStrict": true
+  "inheritConfigStrict": true,
+  "repositories": [
+    "rsturla-homelab/renovate-config"
+  ]
 }
