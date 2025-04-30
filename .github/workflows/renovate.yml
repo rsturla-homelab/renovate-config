@@ -1,36 +1,31 @@
-name: Renovate
+name: Renovate Self-Hosted
 
 on:
   pull_request:
-    paths:
-      - ".github/renovate.json"
-      - ".github/renovate.json5"
-      - "renovate.json"
-      - "renovate.json5"
-      - "org-inherited-config.json"
+    branches:
+      - main
 
 jobs:
-  validate:
-    strategy:
-      fail-fast: true
-      matrix:
-        config_file: ["org-inherited-config.json"]
+  renovate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
+      - name: Get Token
+        id: get-token
+        uses: actions/create-github-app-token@v1
         with:
-          node-version: latest
+          app-id: ${{ secrets.RENOVATE_APP_ID }}
+          private-key: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
-      # Hosted Renovate should use the latest available version, so always
-      # install the newest version of Renovate
-      - name: Install dependencies
-        run: npm install -g renovate
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ steps.get-token.outputs.token }}
+          persist-credentials: false
 
-      - name: Validate Renovate config
-        env:
-          CONFIG_FILE: ${{ matrix.config_file }}
-        run: renovate-config-validator --strict ${CONFIG_FILE}
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v41.0.22
+        with:
+          token: ${{ steps.get-token.outputs.token }}
+          configurationFile: ./renovate-config.json
