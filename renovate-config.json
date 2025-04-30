@@ -4,5 +4,6 @@
   "onboarding": false,
   "platform": "github",
   "autodiscover": true,
-  "requireConfig": "optional"
+  "requireConfig": "optional",
+  "inheritConfig": true
 }
