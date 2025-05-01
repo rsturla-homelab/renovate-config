@@ -11,16 +11,6 @@ on:
     # Every 30 minutes from 8:00 to 21:00 UTC
     - cron: "*/30 8-21 * * *"
   workflow_dispatch:
-    inputs:
-      reset_cache:
-        description: 'Reset cache'
-        type: boolean
-        default: false
-
-env:
-  CACHE_ARCHIVE: renovate_cache.tar.gz
-  CACHE_DIR: /tmp/renovate/cache/renovate/repository
-  CACHE_KEY: renovate-cache
 
 jobs:
   renovate:
@@ -41,46 +31,10 @@ jobs:
           token: ${{ steps.get-token.outputs.token }}
           persist-credentials: false
 
-      - uses: dawidd6/action-download-artifact@v9
-        # if: ${{ github.event_name != 'pull_request' }}
-        continue-on-error: true
-        with:
-          name: ${{ env.CACHE_KEY }}
-          path: cache-download
-
-      - name: Extract renovate cache
-        run: |
-          set -x
-          if [ ! -d cache-download ] ; then
-            echo "No cache found."
-            exit 0
-          fi
-
-          mkdir -p $CACHE_DIR
-          tar -xzf cache-download/$CACHE_ARCHIVE -C $CACHE_DIR
-          sudo chown -R 12021:0 /tmp/renovate/
-          ls -R $CACHE_DIR
-
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v41.0.22
-        # env:
-        #   RENOVATE_DRY_RUN: ${{ github.event_name == 'pull_request' && 'full' }}
+        env:
+          RENOVATE_DRY_RUN: ${{ github.event_name == 'pull_request' && 'full' }}
         with:
           token: ${{ steps.get-token.outputs.token }}
           configurationFile: ./renovate-config.json
-
-      - name: Compress renovate cache
-        # if: ${{ github.event_name != 'pull_request' }}
-        run: |
-          ls $CACHE_DIR
-          tar -czvf $CACHE_ARCHIVE -C $CACHE_DIR .
-
-      - uses: actions/upload-artifact@v4
-        # if: ${{ github.event_name != 'pull_request' }}
-        with:
-          name: ${{ env.CACHE_KEY }}
-          path: ${{ env.CACHE_ARCHIVE }}
-          # Since this is updated and restored on every run, we don't need to keep it
-          # for long. Just make sure this value is large enough that multiple renovate
-          # runs can happen before older cache archives are deleted.
-          retention-days: 1

@@ -7,9 +7,5 @@
   "inheritConfig": true,
   "inheritConfigRepoName": "{{parentOrg}}/renovate-config",
   "inheritConfigFileName": "org-inherited-config.json",
-  "inheritConfigStrict": true,
-  "repositoryCache": "enabled",
-  "repositories": [
-    "rsturla-homelab/renovate-config"
-  ]
+  "inheritConfigStrict": true
 }
