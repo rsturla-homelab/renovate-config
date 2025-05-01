@@ -41,7 +41,7 @@ jobs:
           token: ${{ steps.get-token.outputs.token }}
           persist-credentials: false
 
-      - uses: dawidd6/action-download-artifact@v2
+      - uses: dawidd6/action-download-artifact@v9
         if: github.event.inputs.reset_cache == 'true'
         continue-on-error: true
         with:
@@ -74,7 +74,7 @@ jobs:
           ls $CACHE_DIR
           tar -czvf $CACHE_ARCHIVE -C $CACHE_DIR .
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.CACHE_KEY }}
           path: ${{ env.CACHE_ARCHIVE }}
