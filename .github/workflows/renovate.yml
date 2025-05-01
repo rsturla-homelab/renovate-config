@@ -42,7 +42,7 @@ jobs:
           persist-credentials: false
 
       - uses: dawidd6/action-download-artifact@v9
-        if: ${{ github.event_name != 'pull_request' }}
+        # if: ${{ github.event_name != 'pull_request' }}
         continue-on-error: true
         with:
           name: ${{ env.CACHE_KEY }}
@@ -63,20 +63,20 @@ jobs:
 
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v41.0.22
-        env:
-          RENOVATE_DRY_RUN: ${{ github.event_name == 'pull_request' && 'full' }}
+        # env:
+        #   RENOVATE_DRY_RUN: ${{ github.event_name == 'pull_request' && 'full' }}
         with:
           token: ${{ steps.get-token.outputs.token }}
           configurationFile: ./renovate-config.json
 
       - name: Compress renovate cache
-        if: ${{ github.event_name != 'pull_request' }}
+        # if: ${{ github.event_name != 'pull_request' }}
         run: |
           ls $CACHE_DIR
           tar -czvf $CACHE_ARCHIVE -C $CACHE_DIR .
 
       - uses: actions/upload-artifact@v4
-        if: ${{ github.event_name != 'pull_request' }}
+        # if: ${{ github.event_name != 'pull_request' }}
         with:
           name: ${{ env.CACHE_KEY }}
           path: ${{ env.CACHE_ARCHIVE }}
