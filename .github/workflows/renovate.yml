@@ -4,6 +4,11 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - ".github/workflows/renovate.yml"
+      - "org-inherited-config.json"
+  schedule:
+    - cron: "0 6-23 * * *" # Every hour from 6:00 to 23:00 UTC
 
 jobs:
   renovate:
@@ -11,12 +16,11 @@ jobs:
     steps:
       - name: Get Token
         id: get-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ vars.RENOVATE_APP_ID }}
           private-key: ${{ secrets.RENOVATE_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: 'renovate-config'
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,7 +32,7 @@ jobs:
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v41.0.22
         env:
-          LOG_LEVEL: debug
+          RENOVATE_DRY_RUN: ${{ github.event_name == 'pull_request' && 'full' }}
         with:
           token: ${{ steps.get-token.outputs.token }}
           configurationFile: ./renovate-config.json

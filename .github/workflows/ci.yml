@@ -3,6 +3,7 @@ name: Renovate CI
 on:
   pull_request:
     paths:
+      - ".github/workflows/ci.yml"
       - ".github/renovate.json"
       - ".github/renovate.json5"
       - "renovate.json"
