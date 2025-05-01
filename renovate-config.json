@@ -2,12 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "onboarding": false,
   "platform": "github",
-  "autodiscover": false,
+  "autodiscover": true,
   "requireConfig": "optional",
   "inheritConfig": true,
   "inheritConfigRepoName": "{{parentOrg}}/renovate-config",
   "inheritConfigFileName": "org-inherited-config.json",
   "inheritConfigStrict": true,
+  "repositoryCache": "enabled",
   "repositories": [
     "rsturla-homelab/renovate-config"
   ]
