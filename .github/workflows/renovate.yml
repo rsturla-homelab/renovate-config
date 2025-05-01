@@ -70,11 +70,13 @@ jobs:
           configurationFile: ./renovate-config.json
 
       - name: Compress renovate cache
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
           ls $CACHE_DIR
           tar -czvf $CACHE_ARCHIVE -C $CACHE_DIR .
 
       - uses: actions/upload-artifact@v4
+        if: ${{ github.event_name == 'pull_request' }}
         with:
           name: ${{ env.CACHE_KEY }}
           path: ${{ env.CACHE_ARCHIVE }}
