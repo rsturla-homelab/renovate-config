@@ -46,7 +46,7 @@
             ],
             "matchPackageNames": [
                 "quay.io/centos-bootc/centos-bootc",
-                "ghcr.io/rsturla-homelab/bootc/*"
+                "ghcr.io/rsturla-homelab/bootc/**"
             ]
         }
     ],
