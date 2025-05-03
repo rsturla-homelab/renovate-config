@@ -9,7 +9,7 @@ on:
       - "org-inherited-config.json"
   schedule:
     # Every 15 minutes from 8:00 to 21:00 UTC
-    - cron: "*/15 8-21 * * *"
+    - cron: "*/15 6-23 * * *"
   workflow_dispatch:
 
 jobs:
