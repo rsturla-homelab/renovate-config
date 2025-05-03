@@ -8,8 +8,8 @@ on:
       - ".github/workflows/renovate.yml"
       - "org-inherited-config.json"
   schedule:
-    # Every 30 minutes from 8:00 to 21:00 UTC
-    - cron: "*/30 8-21 * * *"
+    # Every 15 minutes from 8:00 to 21:00 UTC
+    - cron: "*/15 8-21 * * *"
   workflow_dispatch:
 
 jobs:
