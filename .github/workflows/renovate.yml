@@ -18,21 +18,21 @@ jobs:
     steps:
       - name: Get Token
         id: get-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@db3cdf40984fe6fd25ae19ac2bf2f4886ae8d959 # v2
         with:
           app-id: ${{ vars.RENOVATE_APP_ID }}
           private-key: ${{ secrets.RENOVATE_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           fetch-depth: 1
           token: ${{ steps.get-token.outputs.token }}
           persist-credentials: false
 
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v41.0.22
+        uses: renovatebot/github-action@8ac70de2fe55752c573155866e30735411e3b61c # v41.0.22
         env:
           RENOVATE_DRY_RUN: ${{ github.event_name == 'pull_request' && 'full' }}
         with:
