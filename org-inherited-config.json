@@ -1,65 +1,76 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
-        "config:best-practices"
-    ],
-    "packageRules": [
-        {
-            "automerge": true,
-            "matchManagers": [
-                "github-actions"
-            ],
-            "matchUpdateTypes": [
-                "minor",
-                "patch",
-                "pin",
-                "digest",
-                "pinDigest"
-            ],
-            "matchDepNames": [
-                "actions/checkout",
-                "actions/setup-node",
-                "actions/setup-go",
-                "actions/setup-python",
-                "trufflesecurity/trufflehog",
-                "actions/dependency-review-action",
-                "advanced-security/set-codeql-language-matrix",
-                "github/codeql-action/init",
-                "github/codeql-action/autobuild",
-                "github/codeql-action/analyze"
-            ]
-        },
-        {
-            "automerge": true,
-            "matchManagers": [
-                "github-actions"
-            ],
-            "matchUpdateTypes": [
-                "pin",
-                "pinDigest"
-            ]
-        },
-        {
-            "automerge": true,
-            "matchUpdateTypes": [
-                "digest"
-            ],
-            "matchPackageNames": [
-                "quay.io/centos-bootc/centos-bootc",
-                "ghcr.io/rsturla-homelab/bootc/**"
-            ]
-        }
-    ],
-    "customManagers": [
-        {
-            "customType": "regex",
-            "fileMatch": [
-                "image-versions(\\.[^.]+)?\\.(yaml|yml)$"
-            ],
-            "matchStrings": [
-                "image:\\s*(?<packageName>\\S+)\\s*tag:\\s*(?<currentValue>\\S+)\\s*digest:\\s*(?<currentDigest>sha256:[a-f0-9]+)"
-            ],
-            "datasourceTemplate": "docker"
-        }
-    ]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices"
+  ],
+  "packageRules": [
+    {
+      "automerge": true,
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest",
+        "pinDigest"
+      ],
+      "matchDepNames": [
+        "actions/checkout",
+        "actions/setup-node",
+        "actions/setup-go",
+        "actions/setup-python",
+        "trufflesecurity/trufflehog",
+        "actions/dependency-review-action",
+        "advanced-security/set-codeql-language-matrix",
+        "github/codeql-action/init",
+        "github/codeql-action/autobuild",
+        "github/codeql-action/analyze"
+      ]
+    },
+    {
+      "automerge": true,
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "pin",
+        "pinDigest"
+      ]
+    },
+    {
+      "automerge": true,
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "matchPackageNames": [
+        "quay.io/centos-bootc/centos-bootc",
+        "ghcr.io/rsturla-homelab/bootc/**"
+      ]
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "image-versions(\\.[^.]+)?\\.(yaml|yml)$"
+      ],
+      "matchStrings": [
+        "image:\\s*(?<packageName>\\S+)\\s*tag:\\s*(?<currentValue>\\S+)\\s*digest:\\s*(?<currentDigest>sha256:[a-f0-9]+)"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^.*\\.image$/",
+        "/^.*\\.container$/"
+      ],
+      "matchStrings": [
+        "Image=\\s*(?<packageName>[^:@\\s]+(?:\\/[^:@\\s]+)*):(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
 }
