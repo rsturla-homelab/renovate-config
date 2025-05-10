@@ -57,7 +57,7 @@
         "image-versions(\\.[^.]+)?\\.(yaml|yml)$"
       ],
       "matchStrings": [
-        "image:\\s*(?<packageName>\\S+)\\s*tag:\\s*(?<currentValue>\\S+)\\s*digest:\\s*(?<currentDigest>sha256:[a-f0-9]+)"
+        "image:\\s*(?<depName>\\S+)\\s*tag:\\s*(?<currentValue>\\S+)\\s*digest:\\s*(?<currentDigest>sha256:[a-f0-9]+)"
       ],
       "datasourceTemplate": "docker"
     },
@@ -68,7 +68,7 @@
         "/^.*\\.container$/"
       ],
       "matchStrings": [
-        "Image=\\s*(?<packageName>[^:@\\s]+(?:\\/[^:@\\s]+)*):(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?"
+        "Image=\\s*(?<depName>[^:@\\s]+(?:\\/[^:@\\s]+)*):(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?"
       ],
       "datasourceTemplate": "docker"
     }
