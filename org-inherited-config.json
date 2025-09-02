@@ -1,76 +1,78 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:best-practices"
+    // Base configuration
+    "config:best-practices",
+    // Add "Signed-off-by" footer to commit messages
+    ":gitSignOff",
+    // Catch-all for grouping dependencies not caught by other groups
+    "group:all"
   ],
+  // Rebase when there are merge conflicts
+  //
+  // The "conflicted" option is typically the ideal choice for most situations
+  // where you don't want to burn CI credits, while still keeping your branch
+  // in a mergeable state at all times.
+  "rebaseWhen": "conflicted",
   "packageRules": [
+    // Group GitHub Actions dependencies
     {
-      "automerge": true,
+      "description": [
+        "GitHub Actions dependencies"
+      ],
       "matchManagers": [
         "github-actions"
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest",
-        "pinDigest"
+      "groupName": "GitHub Actions",
+      "enabled": true
+    },
+    // Group Rust dependencies
+    {
+      "description": [
+        "Rust dependencies"
+      ],
+      "matchManagers": [
+        "cargo"
+      ],
+      "groupName": "Rust",
+      "enabled": true
+    },
+    // Group Docker dependencies
+    {
+      "description": [
+        "Docker dependencies"
+      ],
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "groupName": "Docker",
+      "enabled": true
+    },
+    // Disable Containerfile digest pinning
+    {
+      "description": [
+        "Containerfile digest pinning"
+      ],
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "pinDigests": false
+    },
+    // Disable Fedora OCI updates
+    //
+    // This is due to there not being an easy way to tell Renovate which
+    // Fedora version is "stable" and which has not been released yet.
+    {
+      "description": [
+        "Disable Fedora OCI updates"
+      ],
+      "matchManagers": [
+        "dockerfile"
       ],
       "matchDepNames": [
-        "actions/checkout",
-        "actions/setup-node",
-        "actions/setup-go",
-        "actions/setup-python",
-        "trufflesecurity/trufflehog",
-        "actions/dependency-review-action",
-        "advanced-security/set-codeql-language-matrix",
-        "github/codeql-action/init",
-        "github/codeql-action/autobuild",
-        "github/codeql-action/analyze"
-      ]
-    },
-    {
-      "automerge": true,
-      "matchManagers": [
-        "github-actions"
+        "quay.io/fedora/fedora"
       ],
-      "matchUpdateTypes": [
-        "pin",
-        "pinDigest"
-      ]
-    },
-    {
-      "automerge": true,
-      "matchUpdateTypes": [
-        "digest"
-      ],
-      "matchPackageNames": [
-        "quay.io/centos-bootc/centos-bootc",
-        "ghcr.io/rsturla-homelab/bootc/**"
-      ]
-    }
-  ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/image-versions(\\.[^.]+)?\\.(yaml|yml)$/"
-      ],
-      "matchStrings": [
-        "image:\\s*(?<depName>\\S+)\\s*tag:\\s*(?<currentValue>\\S+)\\s*digest:\\s*(?<currentDigest>sha256:[a-f0-9]+)"
-      ],
-      "datasourceTemplate": "docker"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/^.*\\.image$/",
-        "/^.*\\.container$/"
-      ],
-      "matchStrings": [
-        "Image=\\s*(?<depName>[^:@\\s]+(?:\\/[^:@\\s]+)*):(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?"
-      ],
-      "datasourceTemplate": "docker"
+      "enabled": false
     }
   ]
 }
