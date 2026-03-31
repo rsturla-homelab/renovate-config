@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Get Token
         id: get-token
-        uses: actions/create-github-app-token@db3cdf40984fe6fd25ae19ac2bf2f4886ae8d959 # v2
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
         with:
           app-id: ${{ vars.RENOVATE_APP_ID }}
           private-key: ${{ secrets.RENOVATE_PRIVATE_KEY }}
